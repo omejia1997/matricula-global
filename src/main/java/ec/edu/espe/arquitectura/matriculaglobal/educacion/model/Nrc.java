@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "edu_nrc", uniqueConstraints = {@UniqueConstraint(columnNames = {"cod_periodo"})})
+@Table(name = "edu_nrc")
 
 public class Nrc implements Serializable {
 

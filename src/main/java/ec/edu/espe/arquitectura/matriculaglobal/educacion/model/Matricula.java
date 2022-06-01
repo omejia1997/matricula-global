@@ -23,8 +23,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "edu_matricula", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"cod_periodo"})})
+@Table(name = "edu_matricula")
 
 public class Matricula implements Serializable {
 

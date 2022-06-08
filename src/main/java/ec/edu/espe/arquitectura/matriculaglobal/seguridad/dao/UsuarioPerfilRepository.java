@@ -19,6 +19,6 @@ import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.UsuarioPerfil;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.UsuarioPerfilPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioPerfilRespository extends JpaRepository<UsuarioPerfil, UsuarioPerfilPK>{
+public interface UsuarioPerfilRepository extends JpaRepository<UsuarioPerfil, UsuarioPerfilPK>{
     
 }

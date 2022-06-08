@@ -32,6 +32,7 @@ public class Modulo implements Serializable {
     private String nombre;
     @Column(name = "estado", nullable = false, length = 3)
     private String estado;
+    @Version
     @Column(name = "version", nullable = false)
     private Integer version;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codModulo")

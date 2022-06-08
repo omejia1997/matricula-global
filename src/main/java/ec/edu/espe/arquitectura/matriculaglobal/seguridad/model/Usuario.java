@@ -21,8 +21,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "seg_usuario", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"mail"})})
+@Table(name = "seg_usuario")
 
 public class Usuario implements Serializable {
 
@@ -63,7 +62,7 @@ public class Usuario implements Serializable {
     @Column(name = "version", nullable = false)
     private Integer version;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<UsuarioPerfil> usuarioPerfilList;
+    private List<UsuarioPerfil> usuarioPerfiles;
 
     public Usuario() {
     }
@@ -192,12 +191,12 @@ public class Usuario implements Serializable {
         this.version = version;
     }
 
-    public List<UsuarioPerfil> getUsuarioPerfilList() {
-        return usuarioPerfilList;
+    public List<UsuarioPerfil> getUsuarioPerfiles() {
+        return usuarioPerfiles;
     }
 
-    public void setUsuarioPerfilList(List<UsuarioPerfil> usuarioPerfilList) {
-        this.usuarioPerfilList = usuarioPerfilList;
+    public void setUsuarioPerfiles(List<UsuarioPerfil> usuarioPerfiles) {
+        this.usuarioPerfiles = usuarioPerfiles;
     }
 
     @Override

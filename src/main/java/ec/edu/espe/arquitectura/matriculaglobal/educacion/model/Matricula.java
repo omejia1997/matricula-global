@@ -129,7 +129,7 @@ public class Matricula implements Serializable {
     }
 
     public void setCarrera(Carrera carrera) {
-        carrera = carrera;
+        this.carrera = carrera;
     }
 
     public Periodo getPeriodo() {
@@ -137,7 +137,7 @@ public class Matricula implements Serializable {
     }
 
     public void setPeriodo(Periodo periodo) {
-        periodo = periodo;
+        this.periodo = periodo;
     }
 
     @Override

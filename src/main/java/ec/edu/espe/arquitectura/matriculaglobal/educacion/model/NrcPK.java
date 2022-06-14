@@ -33,8 +33,17 @@ public class NrcPK implements Serializable {
     @Column(name = "cod_materia", nullable = false)
     private Integer codMateria;
 
+    
     public NrcPK() {
     }
+    
+    public NrcPK(Integer codNrc, Integer codPeriodo, Integer codDepartamento, Integer codMateria) {
+        this.codNrc = codNrc;
+        this.codPeriodo = codPeriodo;
+        this.codDepartamento = codDepartamento;
+        this.codMateria = codMateria;
+    }
+    
     public Integer getCodNrc() {
         return codNrc;
     }

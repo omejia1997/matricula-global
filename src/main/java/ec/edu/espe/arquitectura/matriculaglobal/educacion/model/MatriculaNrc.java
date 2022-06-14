@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "edu_matricula_nrc")
 
@@ -39,6 +41,7 @@ public class MatriculaNrc implements Serializable {
             @JoinColumn(name = "cod_persona", referencedColumnName = "cod_persona", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Matricula matricula;
+    @JsonIgnore
     @JoinColumns({
             @JoinColumn(name = "cod_nrc", referencedColumnName = "cod_nrc", nullable = false, insertable = false, updatable = false),
             @JoinColumn(name = "cod_periodo", referencedColumnName = "cod_periodo", nullable = false, insertable = false, updatable = false),

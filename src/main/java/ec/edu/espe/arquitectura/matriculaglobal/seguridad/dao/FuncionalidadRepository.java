@@ -21,4 +21,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FuncionalidadRepository extends JpaRepository<Funcionalidad, Integer>{
     List<Funcionalidad> findByCodModuloAndEstado(String codModulo, String estado);
+    List<Funcionalidad> findByEstadoOrderByNombre(String estado);
 }

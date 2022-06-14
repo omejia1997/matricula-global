@@ -15,12 +15,13 @@
  */
 package ec.edu.espe.arquitectura.matriculaglobal.educacion.model;
 
-import ec.edu.espe.arquitectura.matriculaglobal.persona.model.Persona;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "edu_matricula")
@@ -41,15 +42,15 @@ public class Matricula implements Serializable {
     private Integer codPeriodo;
     @Column(name = "cod_carrera", nullable = false)
     private Integer codCarrera;
+    @JsonIgnore
     @JoinColumn(name = "cod_carrera", referencedColumnName = "cod_carrera", nullable = false, insertable = false ,updatable = false)
     @ManyToOne(optional = false)
     private Carrera carrera;
+    @JsonIgnore
     @JoinColumn(name = "cod_periodo", referencedColumnName = "cod_periodo", nullable = false, insertable = false ,updatable = false)
     @OneToOne(optional = false)
     private Periodo periodo;
-    @JoinColumn(name = "cod_persona", referencedColumnName = "cod_persona", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Persona persona;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "matricula")
     private List<MatriculaNrc> matriculaNrc;
 
@@ -90,14 +91,6 @@ public class Matricula implements Serializable {
 
     public void setCosto(BigDecimal costo) {
         this.costo = costo;
-    }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
     }
 
     public List<MatriculaNrc> getMatriculaNrc() {

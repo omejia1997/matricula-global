@@ -18,6 +18,8 @@ package ec.edu.espe.arquitectura.matriculaglobal.educacion.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "edu_prerequisito")
 
@@ -33,11 +35,13 @@ public class Prerequisito implements Serializable {
     private Integer codMateria;
     @Column(name = "cod_departamento",nullable = false)
     private Integer codDepartamento;
+    @JsonIgnore
     @JoinColumns({
             @JoinColumn(name = "cod_materia", referencedColumnName = "cod_materia", nullable = false, insertable = false ,updatable = false),
             @JoinColumn(name = "cod_departamento", referencedColumnName = "cod_departamento", nullable = false, insertable = false ,updatable = false)})
     @ManyToOne(optional = false)
     private Materia materia;
+    @JsonIgnore
     @JoinColumns({
             @JoinColumn(name = "cod_materia_prerequisito", referencedColumnName = "cod_materia", nullable = false),
             @JoinColumn(name = "edu_cod_departamento", referencedColumnName = "cod_departamento", nullable = false)})

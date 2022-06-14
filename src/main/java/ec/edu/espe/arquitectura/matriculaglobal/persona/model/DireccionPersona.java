@@ -21,6 +21,8 @@ import javax.persistence.*;
 
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "per_direccion_persona")
 public class DireccionPersona implements Serializable {
@@ -57,6 +59,7 @@ public class DireccionPersona implements Serializable {
     private String audIp;
     @Column(name = "version", nullable = false)
     private Integer version;
+    @JsonIgnore
     @JoinColumn(name = "cod_persona", referencedColumnName = "cod_persona", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Persona persona;

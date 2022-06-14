@@ -35,14 +35,12 @@ public class UsuarioPerfil implements Serializable {
     @Column(name = "aud_ip", nullable = false, length = 30)
     private String audIp;
     @Column(name = "version", nullable = false)
+    @Version
     private Integer version;
     @JoinColumn(name = "cod_perfil", referencedColumnName = "cod_perfil", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Perfil perfil;
-    @JoinColumn(name = "cod_usuario", referencedColumnName = "cod_usuario", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Usuario usuario;
-
+    
     public UsuarioPerfil() {
     }
 
@@ -94,16 +92,8 @@ public class UsuarioPerfil implements Serializable {
         return perfil;
     }
 
-    public void setPerfil(Perfil Perfil) {
-        this.perfil = Perfil;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario Usuario) {
-        this.usuario = Usuario;
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

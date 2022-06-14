@@ -23,4 +23,7 @@ import java.util.List;
 
 public interface MatriculaNrcRepository extends JpaRepository<MatriculaNrc, MatriculaNrcPK> {
     List<MatriculaNrc> findByEstado(String estado);
+    List<MatriculaNrc> findByPkCodNrcAndPkCodPeriodoAndPkCodDepartamentoAndPkCodMateriaOrderByPkCodPersona(Integer codNrc, Integer codPeriodo, Integer codDepartamento, Integer codMateria);
+    List<MatriculaNrc> findByPkCodPersonaAndEstado(Integer codPersona, String estado);
+    List<MatriculaNrc> findByPkCodPersonaAndPkCodMateria(Integer codPersona, Integer codMateria);
 }

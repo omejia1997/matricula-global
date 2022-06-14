@@ -22,5 +22,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface NrcHorarioRepository extends JpaRepository<NrcHorario, NrcHorarioPK> {
-    List<NrcHorario> findByPkCodNrcAndPkCodPeriodo(Integer codNrc, Integer CodPeriodo);
+    List<NrcHorario> findByPkCodNrcAndPkCodPeriodo(Integer codNrc, Integer codPeriodo);
 }

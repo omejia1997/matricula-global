@@ -5,8 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ec.edu.espe.arquitectura.matriculaglobal.educacion.NivelCarreraEnum;
-import ec.edu.espe.arquitectura.matriculaglobal.educacion.NivelCarreraException;
+import ec.edu.espe.arquitectura.matriculaglobal.educacion.MatriculaNrcException;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.dao.CarreraRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.model.Carrera;
 
@@ -28,15 +27,14 @@ public class CarreraService {
         }
     }
 
-    public List<Carrera> buscarPorNivel(String nivel) throws NivelCarreraException {
-        if(nivel.equals(NivelCarreraEnum.PREGRADO.getTexto()) || nivel.equals(NivelCarreraEnum.LINEA.getTexto()) || nivel.equals(NivelCarreraEnum.SUFICIENCIA.getTexto())) 
+    public List<Carrera> buscarPorNivel(String nivel) throws MatriculaNrcException {
+     
             return carreraRepository.findByNivelOrderByNombre(nivel);
-        else
-            throw new NivelCarreraException("El nivel especificado no exciste");
+      
     }
 
-    public List<Carrera> buscarPorNombre(String nombre) {
-        return carreraRepository.findByNombreLikeOrderByNivel(nombre);
+    public List<Carrera> buscarPorNombre(String nombrePattern) {
+        return carreraRepository.findByNombreLikeOrderByNivel("%" + nombrePattern.toUpperCase() + "%");
     }
 
     public List<Carrera> buscarPorModalidad(String modalidad) {

@@ -21,12 +21,12 @@ public class DepartamentoResource {
         this.departamentoService = departamentoService;
     }
 
-    @GetMapping
+    @GetMapping("/nombre")
     public ResponseEntity<List<Departamento>> getNombres(@RequestParam("patron") String nombrePatron) {
         return ResponseEntity.ok(this.departamentoService.buscarPorNombre(nombrePatron));
     }
 
-    @GetMapping
+    @GetMapping("/siglas")
     public ResponseEntity<List<Departamento>> getSiglas(@RequestParam("patron") String siglasPatron) {
         return ResponseEntity.ok(this.departamentoService.buscarPorSiglas(siglasPatron));
     }

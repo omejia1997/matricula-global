@@ -12,14 +12,14 @@ import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.Modulo;
 @Service
 public class ModuloService {
     
-    private ModuloRepository moduloRespository;
+    private ModuloRepository moduloRepository;
     
     public ModuloService(ModuloRepository moduloRespository) {
-        this.moduloRespository = moduloRespository;
+        this.moduloRepository = moduloRespository;
     }
 
     public Modulo obtenerPorCodigo(String codigo) {
-        Optional<Modulo>  moduloOpt = this.moduloRespository.findById(codigo);
+        Optional<Modulo>  moduloOpt = this.moduloRepository.findById(codigo);
         if (moduloOpt.isPresent()) {
             return moduloOpt.get();
         } else {
@@ -29,17 +29,17 @@ public class ModuloService {
 
     public void crear(Modulo modulo) {
         modulo.setEstado(EstadosEnum.INACTIVO.getValor());
-        this.moduloRespository.save(modulo);
+        this.moduloRepository.save(modulo);
     }
 
     public void modificar(Modulo modulo) {
         Modulo moduloDB = this.obtenerPorCodigo(modulo.getCodModulo());
         moduloDB.setNombre(modulo.getNombre());
         moduloDB.setEstado(modulo.getEstado());
-        this.moduloRespository.save(moduloDB);
+        this.moduloRepository.save(moduloDB);
     }
 
     public List<Modulo> listarModulosActivos() {
-        return this.moduloRespository.findByEstado(EstadosEnum.ACTIVO.getValor());
+        return this.moduloRepository.findByEstado(EstadosEnum.ACTIVO.getValor());
     }
 }

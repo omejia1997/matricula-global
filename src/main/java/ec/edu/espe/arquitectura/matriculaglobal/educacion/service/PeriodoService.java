@@ -1,5 +1,6 @@
 package ec.edu.espe.arquitectura.matriculaglobal.educacion.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -24,5 +25,18 @@ public class PeriodoService {
             return null;
         }
     }
+
+    public List<Periodo> buscarPorNombre(String nombrePattern) {
+        return this.periodoRepository.findByNombreLikeOrderByFechaInicio("%" + nombrePattern + "%");
+    }
+
+    public List<Periodo> buscarPorNivel(String nivel) {
+        return this.periodoRepository.findByNivelOrderByNombre(nivel);
+    }
+
+    public List<Periodo> buscarPorParciales(Integer parciales) {
+        return this.periodoRepository.findByParciales(parciales);
+    }
+
     
 }

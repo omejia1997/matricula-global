@@ -38,11 +38,7 @@ public class Materia implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materia")
     private List<Nrc> nrcs;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materia")
-    private List<MallaCarrera> carreras;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prerequisito")
     private List<Prerequisito> prerequisitos;
-    @ManyToOne(optional = false)
-    private Departamento departamento;
 
     public Materia() {
     }
@@ -100,14 +96,6 @@ public class Materia implements Serializable {
         this.nrcs = list;
     }
 
-    public List<MallaCarrera> getCarreras() {
-        return carreras;
-    }
-
-    public void setCarreras(List<MallaCarrera> mallaCarreraList) {
-        this.carreras = mallaCarreraList;
-    }
-
     public List<Prerequisito> getPrerequisitos() {
         return prerequisitos;
     }
@@ -116,16 +104,6 @@ public class Materia implements Serializable {
         this.prerequisitos = prerequisitoList1;
     }
 
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
-    
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;

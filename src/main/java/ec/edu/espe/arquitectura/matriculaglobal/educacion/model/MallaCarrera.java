@@ -18,6 +18,8 @@ package ec.edu.espe.arquitectura.matriculaglobal.educacion.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "edu_malla_carrera")
 
@@ -31,10 +33,7 @@ public class MallaCarrera implements Serializable {
     private Integer nivel;
     @Column(name = "cod_carrera", nullable = false)
     private Integer codCarrera;
-    @JoinColumn(name = "cod_carrera", referencedColumnName = "cod_carrera", nullable = false, insertable = false ,updatable = false)
-    @ManyToOne(optional = false)
-    private Carrera carrera;
-
+    @JsonIgnore     
     @JoinColumns({
         @JoinColumn(name = "cod_materia", referencedColumnName = "cod_materia", nullable = false),
         @JoinColumn(name = "cod_departamento", referencedColumnName = "cod_departamento", nullable = false)})
@@ -62,14 +61,6 @@ public class MallaCarrera implements Serializable {
 
     public void setNivel(Integer nivel) {
         this.nivel = nivel;
-    }
-
-    public Carrera getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(Carrera codCarrera) {
-        this.carrera = codCarrera;
     }
 
     public Materia getMateria() {

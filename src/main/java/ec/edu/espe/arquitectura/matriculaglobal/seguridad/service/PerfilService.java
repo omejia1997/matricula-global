@@ -1,10 +1,10 @@
 package ec.edu.espe.arquitectura.matriculaglobal.seguridad.service;
 
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.EstadosEnum;
-import ec.edu.espe.arquitectura.matriculaglobal.seguridad.PerfilEstadoException;
-import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.PerfilFuncionalidadRepository;
+import ec.edu.espe.arquitectura.matriculaglobal.seguridad.PerfilException;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.PerfilRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.Perfil;
+import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.PerfilFuncionalidad;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +15,9 @@ import org.springframework.stereotype.Service;
 public class PerfilService {
     
     private final PerfilRepository perfilRepository;
-    private final PerfilFuncionalidadRepository perfilFuncionalidadRepository;
 
-    public PerfilService(PerfilRepository perfilRepository, PerfilFuncionalidadRepository perfilFuncionalidadRepository) {
+    public PerfilService(PerfilRepository perfilRepository) {
         this.perfilRepository = perfilRepository;
-        this.perfilFuncionalidadRepository = perfilFuncionalidadRepository;
     }
 
     public Perfil obtenerPorCodigo(String codigo) {
@@ -31,16 +29,13 @@ public class PerfilService {
         }
     }
 
-    public List<Perfil> listarPerfilesPorEstado(String estado) throws PerfilEstadoException {
-        if(estado.equals(EstadosEnum.ACTIVO.getValor()) || estado.equals(EstadosEnum.INACTIVO.getValor())) 
-            return this.perfilRepository.findByEstado(estado);
-        else
-            throw new PerfilEstadoException("El estado del perfil es incorrecto");
+    public List<Perfil> listarPerfilesActivos() {
+        return this.perfilRepository.findByEstado(EstadosEnum.ACTIVO.getValor());  
     }
 
     public Perfil crear(Perfil perfil) {
+        perfil.setEstado(EstadosEnum.ACTIVO.getValor());
         this.perfilRepository.save(perfil);
-        this.perfilFuncionalidadRepository.saveAll(perfil.getPerfilFuncionalidadList());
         return perfil;
     }
     
@@ -48,7 +43,15 @@ public class PerfilService {
         Perfil perfilDB = this.obtenerPorCodigo(perfil.getCodPerfil());
         perfilDB.setNombre(perfil.getNombre());
         perfilDB.setEstado(perfil.getEstado());
-        this.perfilRepository.save(perfil);
+        this.perfilRepository.save(perfilDB);
+    }
+
+    public List<PerfilFuncionalidad> buscarFuncionalidadesPerfil(String codPerfil) throws PerfilException{
+        Perfil perfilDB=this.obtenerPorCodigo(codPerfil);
+        if (perfilDB.getEstado().equals(EstadosEnum.INACTIVO.getValor())){
+            throw new PerfilException("El perfil no está activo");
+        }
+        return perfilDB.getPerfilFuncionalidadList();   
     }
 
 }

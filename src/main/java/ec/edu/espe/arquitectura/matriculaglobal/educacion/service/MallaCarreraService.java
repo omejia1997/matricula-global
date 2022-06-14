@@ -33,4 +33,11 @@ public class MallaCarreraService {
     public List<MallaCarrera> buscarPorCarrerayNivel(Integer carrera, Integer nivel) {
         return mallaCarreraRepository.findByCodCarreraAndNivel(carrera, nivel);
     }
+    
+    public MallaCarrera modificar(MallaCarrera mallaCarrera) {
+        MallaCarrera mallaCarreraDB = this.obtenerPorCodigo(mallaCarrera.getCodMateriacarrera());
+        mallaCarreraDB.setNivel(mallaCarrera.getNivel());
+        this.mallaCarreraRepository.save(mallaCarreraDB);
+        return mallaCarreraDB;
+    }
 }

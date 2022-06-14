@@ -19,6 +19,9 @@ import ec.edu.espe.arquitectura.matriculaglobal.persona.model.Persona;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,9 +41,13 @@ public class Nrc implements Serializable {
     private String nombre;
     @Column(name = "cod_persona", nullable = false)
     private Integer codDocente;
-    @JoinColumns({@JoinColumn(name = "cod_materia", referencedColumnName = "cod_materia", nullable = false, insertable = false, updatable = false), @JoinColumn(name = "cod_departamento", referencedColumnName = "cod_departamento", nullable = false, insertable = false, updatable = false)})
+    @JsonIgnore
+    @JoinColumns({
+        @JoinColumn(name = "cod_materia", referencedColumnName = "cod_materia", nullable = false, insertable = false, updatable = false), 
+        @JoinColumn(name = "cod_departamento", referencedColumnName = "cod_departamento", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Materia materia;
+    @JsonIgnore
     @JoinColumn(name = "cod_periodo", referencedColumnName = "cod_periodo", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Periodo periodo;

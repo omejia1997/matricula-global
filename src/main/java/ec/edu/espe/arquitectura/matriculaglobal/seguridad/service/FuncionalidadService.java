@@ -9,7 +9,6 @@ import ec.edu.espe.arquitectura.matriculaglobal.seguridad.EstadosEnum;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.PerfilEstadoException;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.FuncionalidadRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.ModuloRepository;
-import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.PerfilFuncionalidadRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.Funcionalidad;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.Modulo;
 
@@ -18,13 +17,10 @@ public class FuncionalidadService {
 
     private final FuncionalidadRepository funcionalidadRepository;
     private final ModuloRepository moduloRepository;
-    private final PerfilFuncionalidadRepository perfilFuncionalidadRepository;
 
-    public FuncionalidadService(FuncionalidadRepository funcionalidadRepository, ModuloRepository moduloRepository,
-            PerfilFuncionalidadRepository perfilFuncionalidadRepository) {
+    public FuncionalidadService(FuncionalidadRepository funcionalidadRepository, ModuloRepository moduloRepository) {
         this.funcionalidadRepository = funcionalidadRepository;
         this.moduloRepository = moduloRepository;
-        this.perfilFuncionalidadRepository = perfilFuncionalidadRepository;
     }
 
     public Funcionalidad obtenerPorCodigo(Integer codigo) {
@@ -46,16 +42,16 @@ public class FuncionalidadService {
         }
     }
 
-    public List<Funcionalidad> buscarCodModuloYEstado(String codigo, String estado) throws PerfilEstadoException {
+    public List<Funcionalidad> buscarCodModuloYEstado(String codigoModulo, String estado) throws PerfilEstadoException {
         if(estado.equals(EstadosEnum.ACTIVO.getValor()) || estado.equals(EstadosEnum.INACTIVO.getValor())) 
-            return funcionalidadRepository.findByCodModuloAndEstado(codigo, estado);
+            return funcionalidadRepository.findByCodModuloAndEstado(codigoModulo, estado);
         else
             throw new PerfilEstadoException("El estado de la funcionalidad es incorrecto");
     }
 
     public Funcionalidad crear(Funcionalidad funcionalidad) {
+        funcionalidad.setEstado(EstadosEnum.ACTIVO.getValor());
         this.funcionalidadRepository.save(funcionalidad);
-        this.perfilFuncionalidadRepository.saveAll(funcionalidad.getPerfilFuncionalidadList());
         return funcionalidad;
     }
     
@@ -65,7 +61,10 @@ public class FuncionalidadService {
         funcionalidadDB.setDescripcion(funcionalidad.getDescripcion());
         funcionalidadDB.setEstado(funcionalidad.getEstado());
         funcionalidadDB.setUrlPrincipal(funcionalidad.getUrlPrincipal());
-        this.funcionalidadRepository.save(funcionalidad);
+        this.funcionalidadRepository.save(funcionalidadDB);
     }
     
+    public List<Funcionalidad> listarFuncionalidadesActivos() {
+        return this.funcionalidadRepository.findByEstadoOrderByNombre(EstadosEnum.ACTIVO.getValor());
+    }
 }

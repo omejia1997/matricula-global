@@ -36,6 +36,15 @@ public class MatriculaNrcPK implements Serializable {
 
     public MatriculaNrcPK() {
     }
+    
+    public MatriculaNrcPK(Integer codNrc, Integer codPeriodo, Integer codDepartamento, Integer codMateria, String codMatricula, Integer codPersona) {
+        this.codNrc = codNrc;
+        this.codPeriodo = codPeriodo;
+        this.codDepartamento = codDepartamento;
+        this.codMateria = codMateria;
+        this.codMatricula = codMatricula;
+        this.codPersona = codPersona;
+    }    
 
     public Integer getCodNrc() {
         return codNrc;

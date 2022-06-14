@@ -35,9 +35,9 @@ public class Departamento implements Serializable {
     private String descripcion;
     @Column(name = "siglas", nullable = false, length = 32)
     private String siglas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codDepartamento")
     private List<Carrera> carreras;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codDepartamento")
     private List<Materia> materias;
 
     public Departamento() {

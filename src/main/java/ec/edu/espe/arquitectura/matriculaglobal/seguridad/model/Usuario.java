@@ -60,8 +60,9 @@ public class Usuario implements Serializable {
     @Column(name = "aud_ip", nullable = false, length = 30)
     private String audIp;
     @Column(name = "version", nullable = false)
+    @Version
     private Integer version;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codUsuario")
     private List<UsuarioPerfil> usuarioPerfiles;
 
     public Usuario() {

@@ -15,11 +15,11 @@
  */
 package ec.edu.espe.arquitectura.matriculaglobal.educacion.model;
 
-import ec.edu.espe.arquitectura.matriculaglobal.orgfisica.model.Aula;
-
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "edu_nrc_horario")
@@ -29,18 +29,13 @@ public class NrcHorario implements Serializable {
     private static final long serialVersionUID = 12345L;
     @EmbeddedId
     private NrcHorarioPK pk;
-    @Column(name = "cod_aula", nullable = false, insertable = false ,updatable = false)
-    private Integer codAula;
     @Column(name = "hora_inicio", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaInicio;
-    @Column(name = "dia_semana", nullable = false, insertable = false ,updatable = false)
-    private String diaSemana;
-    @Column(name = "cod_materia", nullable = false, insertable = false ,updatable = false)
-    private Integer codMateria;
     @Column(name = "hora_fin", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaFin;
+    @JsonIgnore
     @JoinColumns({
             @JoinColumn(name = "cod_nrc", referencedColumnName = "cod_nrc", nullable = false, insertable = false, updatable = false),
             @JoinColumn(name = "cod_periodo", referencedColumnName = "cod_periodo", nullable = false, insertable = false, updatable = false),
@@ -48,9 +43,6 @@ public class NrcHorario implements Serializable {
             @JoinColumn(name = "cod_materia", referencedColumnName = "cod_materia", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Nrc nrc;
-    @JoinColumn(name = "cod_aula", referencedColumnName = "cod_aula", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Aula aula;
 
     public NrcHorario() {
     }
@@ -89,38 +81,6 @@ public class NrcHorario implements Serializable {
 
     public void setNrc(Nrc nrc) {
         this.nrc = nrc;
-    }
-
-    public Aula getAula() {
-        return aula;
-    }
-
-    public void setAula(Aula aula) {
-        this.aula = aula;
-    }
-
-    public Integer getCodAula() {
-        return codAula;
-    }
-
-    public void setCodAula(Integer codAula) {
-        this.codAula = codAula;
-    }
-
-    public String getDiaSemana() {
-        return diaSemana;
-    }
-
-    public void setDiaSemana(String diaSemana) {
-        this.diaSemana = diaSemana;
-    }
-
-    public Integer getCodMateria() {
-        return codMateria;
-    }
-
-    public void setCodMateria(Integer codMateria) {
-        this.codMateria = codMateria;
     }
 
     @Override

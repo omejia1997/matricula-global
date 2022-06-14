@@ -21,18 +21,27 @@ public class CarreraResource {
         this.carreraService = carreraService;
     }
     
-    @GetMapping
+    @GetMapping("/nombre")
     public ResponseEntity<List<Carrera>> getCarreraPorNombre(@RequestParam("nombre") String nombre) {
         return ResponseEntity.ok(this.carreraService.buscarPorNombre(nombre));
     }
 
-    @GetMapping
+    @GetMapping("/modalidad")
     public ResponseEntity<List<Carrera>> getCarreraPorModalidad(@RequestParam("modalidad") String modalidad) {
         return ResponseEntity.ok(this.carreraService.buscarPorModalidad(modalidad));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Carrera>> getCarreraPorCodigo(@RequestParam("codigo") String codigo) {
+    @GetMapping("/nivel")
+    public ResponseEntity<List<Carrera>> getCarreraPorNivel(@RequestParam("nivel") String nivel) {
+        try {
+            return ResponseEntity.ok(this.carreraService.buscarPorNivel(nivel));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/departamento")
+    public ResponseEntity<List<Carrera>> getCarreraPorCodigoDpto(@RequestParam("codigodpto") String codigo) {
         try {
             return ResponseEntity.ok(this.carreraService.buscarPorCodDepartamento(Integer.parseInt(codigo)));
         } catch (Exception e) {

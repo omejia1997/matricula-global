@@ -35,21 +35,20 @@ public class PerfilFuncionalidad implements Serializable {
     @Column(name = "aud_ip", nullable = false, length = 30)
     private String audIp;
     @Column(name = "version", nullable = false)
+    @Version
     private Integer version;
     @JoinColumn(name = "cod_funcionalidad", referencedColumnName = "cod_funcionalidad", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Funcionalidad funcionalidad;
-    @JoinColumn(name = "cod_perfil", referencedColumnName = "cod_perfil", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Perfil perfil;
 
+    
     public PerfilFuncionalidad() {
     }
-
+    
     public PerfilFuncionalidad(PerfilFuncionalidadPK pk) {
         this.pk = pk;
     }
-
+    
 
     public PerfilFuncionalidadPK getPerfilFuncionalidadPK() {
         return pk;
@@ -97,14 +96,6 @@ public class PerfilFuncionalidad implements Serializable {
 
     public void setFuncionalidad(Funcionalidad funcionalidad) {
         this.funcionalidad = funcionalidad;
-    }
-
-    public Perfil getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface CarreraRepository extends JpaRepository<Carrera, Integer> {
     List<Carrera> findByNivelOrderByNombre(String nivel);
-    List<Carrera> findByNombreLikeOrderByNivel(String nombre);
+    List<Carrera> findByNombreLikeOrderByNivel(String nombrePattern);
     List<Carrera> findByModalidadOrderByNombre(String modalidad);
     List<Carrera> findByCodDepartamentoOrderByNombre(Integer codDepartamento);
 

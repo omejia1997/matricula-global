@@ -1,5 +1,7 @@
 package ec.edu.espe.arquitectura.matriculaglobal.educacion.service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -26,4 +28,23 @@ public class NrcHorarioService {
         }
     }
 
+    public List<NrcHorario> buscarporCodNrcYCodPeriodo(Integer codNrc, Integer codPeriodo) {
+        return this.nrcHorarioRepository.findByPkCodNrcAndPkCodPeriodo(codNrc, codPeriodo);
+    }
+
+    public void crear(NrcHorario nrcHorario, Date horaInicio, Date horaFin) {
+        nrcHorario.getPk().setDiaSemana(nrcHorario.getPk().getDiaSemana().toUpperCase());
+        nrcHorario.setHoraInicio(horaInicio);
+        nrcHorario.setHoraFin(horaFin);
+        this.nrcHorarioRepository.save(nrcHorario);
+    }
+
+    public NrcHorario modificar(NrcHorario nrcHorario, Date horaInicio, Date horaFin) {
+        nrcHorario.getPk().setDiaSemana(nrcHorario.getPk().getDiaSemana().toUpperCase());;
+        NrcHorario nrcHorarioDB = this.obtenerPorCodigo(nrcHorario.getPk());
+        nrcHorarioDB.setHoraInicio(horaInicio);
+        nrcHorarioDB.setHoraFin(horaFin);
+        this.nrcHorarioRepository.save(nrcHorarioDB);
+        return nrcHorarioDB;
+    }
 }

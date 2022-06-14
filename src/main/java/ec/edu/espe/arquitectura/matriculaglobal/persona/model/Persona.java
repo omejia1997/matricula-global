@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "per_persona")
 public class Persona implements Serializable {
@@ -34,6 +36,12 @@ public class Persona implements Serializable {
     private Integer codPersona;
     @Column(name = "codigo_alterno", nullable = false, length = 15)
     private String codigoAlterno;
+    @Column(name = "cod_tipo_persona", nullable = false, length = 3)
+    private String codTipoPersona;
+    @Column(name = "cod_tipo_discapacidad", nullable = false, length = 8)
+    private String codTipoDiscapacidad;
+    @Column(name = "cod_pais_nacimiento", nullable = false, length = 2)
+    private String codPaisNacimiento;
     @Column(name = "tipo_identificacion", nullable = false, length = 3)
     private String tipoIdentificacion;
     @Column(name = "identificacion", nullable = false, length = 20)
@@ -84,30 +92,37 @@ public class Persona implements Serializable {
     private String audIp;
     @Column(name = "version", nullable = false)
     private Integer version;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codPersona")
     private List<DireccionPersona> direccionPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codPersona")
     private List<Matricula> matriculaList;
-    @JoinColumn(name = "cod_pais_nacimiento", referencedColumnName = "cod_pais")
+    @JsonIgnore
+    @JoinColumn(name = "cod_pais_nacimiento", referencedColumnName = "cod_pais", nullable = false, insertable = false, updatable = false)
     @ManyToOne
-    private Pais codPaisNacimiento;
-    @JoinColumn(name = "nacionalidad", referencedColumnName = "cod_pais", nullable = false)
+    private Pais paisNacimiento;
+    @JsonIgnore
+    @JoinColumn(name = "nacionalidad", referencedColumnName = "cod_pais")
     @ManyToOne(optional = false)
     private Pais nacionalidad;
+    @JsonIgnore
     @JoinColumn(name = "lugar_nacimiento", referencedColumnName = "cod_ubicacion_geo_int", nullable = false)
     @ManyToOne(optional = false)
     private UbicacionGeografica lugarNacimiento;
-    @JoinColumn(name = "cod_tipo_discapacidad", referencedColumnName = "cod_tipo_discapacidad")
+    @JsonIgnore
+    @JoinColumn(name = "cod_tipo_discapacidad", referencedColumnName = "cod_tipo_discapacidad", insertable = false, updatable = false)
     @ManyToOne
-    private TipoDiscapacidad codTipoDiscapacidad;
-    @JoinColumn(name = "cod_tipo_persona", referencedColumnName = "cod_tipo_persona")
+    private TipoDiscapacidad tipoDiscapacidad;
+    @JsonIgnore
+    @JoinColumn(name = "cod_tipo_persona", referencedColumnName = "cod_tipo_persona" , insertable = false, updatable = false)
     @ManyToOne
-    private TipoPersona codTipoPersona;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    private TipoPersona tipoPersona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codPersona")
     private List<DocumentoPersona> documentoPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codPersona")
     private List<FamiliarPersona> familiarPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "persona")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pk.codPersona")
     private List<HistTipoPersona> histTipoPersonaList;
 
     public Persona() {
@@ -149,6 +164,13 @@ public class Persona implements Serializable {
         this.identificacion = identificacion;
     }
 
+    public String getCodPaisNacimiento() {
+        return codPaisNacimiento;
+    }
+
+    public void setCodPaisNacimiento(String codPaisNacimiento) {
+        this.codPaisNacimiento = codPaisNacimiento;
+    }
     public String getNombre1() {
         return nombre1;
     }
@@ -340,13 +362,28 @@ public class Persona implements Serializable {
     public void setMatriculaList(List<Matricula> matriculaList) {
         this.matriculaList = matriculaList;
     }
-
-    public Pais getCodPaisNacimiento() {
-        return codPaisNacimiento;
+    public String getCodTipoPersona() {
+        return codTipoPersona;
     }
 
-    public void setCodPaisNacimiento(Pais codPaisNacimiento) {
-        this.codPaisNacimiento = codPaisNacimiento;
+    public void setCodTipoPersona(String codTipoPersona) {
+        this.codTipoPersona = codTipoPersona;
+    }
+
+    public String getCodTipoDiscapacidad() {
+        return codTipoDiscapacidad;
+    }
+
+    public void setCodTipoDiscapacidad(String codTipoDiscapacidad) {
+        this.codTipoDiscapacidad = codTipoDiscapacidad;
+    }
+    
+    public Pais getPaisNacimiento() {
+        return paisNacimiento;
+    }
+
+    public void setPaisNacimiento(Pais paisNacimiento) {
+        this.paisNacimiento = paisNacimiento;
     }
 
     public Pais getNacionalidad() {
@@ -365,20 +402,20 @@ public class Persona implements Serializable {
         this.lugarNacimiento = lugarNacimiento;
     }
 
-    public TipoDiscapacidad getCodTipoDiscapacidad() {
-        return codTipoDiscapacidad;
+    public TipoDiscapacidad getTipoDiscapacidad() {
+        return tipoDiscapacidad;
     }
 
-    public void setCodTipoDiscapacidad(TipoDiscapacidad codTipoDiscapacidad) {
-        this.codTipoDiscapacidad = codTipoDiscapacidad;
+    public void setTipoDiscapacidad(TipoDiscapacidad tipoDiscapacidad) {
+        this.tipoDiscapacidad = tipoDiscapacidad;
     }
 
-    public TipoPersona getCodTipoPersona() {
-        return codTipoPersona;
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
     }
 
-    public void setCodTipoPersona(TipoPersona codTipoPersona) {
-        this.codTipoPersona = codTipoPersona;
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
 
     public List<DocumentoPersona> getDocumentoPersonaList() {
@@ -427,6 +464,5 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "[ codPersona=" + codPersona + " ]";
-    }
-    
+    }    
 }

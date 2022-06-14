@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "edu_calificacion")
 
@@ -57,6 +59,7 @@ public class Calificacion implements Serializable {
     private BigDecimal promedio;
     @Column(name = "observacion", length = 25)
     private String observacion;
+    @JsonIgnore
     @JoinColumns({
             @JoinColumn(name = "cod_nrc", referencedColumnName = "cod_nrc", nullable = false, insertable = false, updatable = false),
             @JoinColumn(name = "cod_periodo", referencedColumnName = "cod_periodo", nullable = false, insertable = false, updatable = false),

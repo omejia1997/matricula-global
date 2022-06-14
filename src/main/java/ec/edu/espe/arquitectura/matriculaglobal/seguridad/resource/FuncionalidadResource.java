@@ -25,9 +25,14 @@ public class FuncionalidadResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<Funcionalidad>> getFuncionalidadPorCodModuloYEstado(@RequestParam("codigo") String codigo, @RequestParam("Estado") String estado) {
+    public ResponseEntity<List<Funcionalidad>> getFuncionalidadesActivos() {
+        return ResponseEntity.ok(this.funcionalidadService.listarFuncionalidadesActivos());
+    }
+    
+    @GetMapping("/codestado")
+    public ResponseEntity<List<Funcionalidad>> getFuncionalidadPorCodModuloYEstado(@RequestParam("codigoModulo") String codigoModulo, @RequestParam("estado") String estado) {
         try {
-            return ResponseEntity.ok(this.funcionalidadService.buscarCodModuloYEstado(codigo, estado));
+            return ResponseEntity.ok(this.funcionalidadService.buscarCodModuloYEstado(codigoModulo, estado));
         } catch(Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -48,14 +53,12 @@ public class FuncionalidadResource {
     public ResponseEntity<Funcionalidad> modificar(@RequestBody Funcionalidad funcionalidad) {
         try {
             this.funcionalidadService.modificar(funcionalidad);
-            funcionalidad = this.funcionalidadService.obtenerPorCodigo(funcionalidad.getCodModulo());
+            funcionalidad = this.funcionalidadService.obtenerPorCodigo(funcionalidad.getCodFuncionalidad());
             return ResponseEntity.ok(funcionalidad);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     } 
-
-
-
+    
 }

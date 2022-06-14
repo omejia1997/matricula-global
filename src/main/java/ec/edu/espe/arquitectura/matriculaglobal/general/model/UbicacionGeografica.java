@@ -31,7 +31,7 @@ public class UbicacionGeografica implements Serializable {
     private Integer codUbicacionGeoInt;
     @Column(name = "cod_pais", nullable = false)
     private String codPais;
-    @Column(name = "cod_nivel", nullable = false)
+    @Column(name = "nivel", nullable = false)
     private Integer nivel;
     @Column(name = "cod_ubicacion_geografica", nullable = false)
     private String codUbicacionGeografica;
@@ -66,9 +66,6 @@ public class UbicacionGeografica implements Serializable {
     private PaisEstructura paisEstructura;
     @OneToMany(mappedBy = "codUbicacionGeoPadre")
     private List<UbicacionGeografica> ubicacionGeograficaList;
-    @JoinColumn(name = "cod_ubicacion_geo_padre", referencedColumnName = "cod_ubicacion_geo_int", nullable = false, insertable = false, updatable = false)
-    @ManyToOne
-    private UbicacionGeografica ubicacionGeoPadre;
 
     public UbicacionGeografica() {
     }
@@ -212,15 +209,7 @@ public class UbicacionGeografica implements Serializable {
     public void setUbicacionGeograficaList(List<UbicacionGeografica> ubicacionGeograficaList) {
         this.ubicacionGeograficaList = ubicacionGeograficaList;
     }
-
-    public UbicacionGeografica getUbicacionGeoPadre() {
-        return ubicacionGeoPadre;
-    }
-
-    public void setUbicacionGeoPadre(UbicacionGeografica ubicacionGeoPadre) {
-        this.ubicacionGeoPadre = ubicacionGeoPadre;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

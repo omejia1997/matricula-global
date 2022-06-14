@@ -52,11 +52,8 @@ public class Carrera implements Serializable {
     private BigDecimal precioCredito;
     @Column(name = "modalidad", length = 64)
     private String modalidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "carrera")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codCarrera")
     private List<MallaCarrera> mallaCarrera;
-    @JoinColumn(name = "cod_departamento", referencedColumnName = "cod_departamento", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Departamento departamento;
 
     public Carrera() {
     }
@@ -169,14 +166,6 @@ public class Carrera implements Serializable {
         this.mallaCarrera = mallaCarreraList;
     }
     
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento codDepartamento) {
-        this.departamento = codDepartamento;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

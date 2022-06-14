@@ -52,9 +52,6 @@ public class DocumentoPersona implements Serializable {
     private String audIp;
     @Column(name = "version", nullable = false)
     private Integer version;
-    @JoinColumn(name = "cod_persona", referencedColumnName = "cod_persona", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Persona persona;
     @JoinColumn(name = "cod_tipo_documento", referencedColumnName = "cod_tipo_documento", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private TipoDocumento tipoDocumento;
@@ -162,15 +159,7 @@ public class DocumentoPersona implements Serializable {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
+    
     public TipoDocumento getTipoDocumento() {
         return tipoDocumento;
     }

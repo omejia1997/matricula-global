@@ -43,9 +43,7 @@ public class Perfil implements Serializable {
     @Version
     @Column(name = "version", nullable = false)
     private Integer version;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perfil")
-    private List<UsuarioPerfil> usuarioPerfilList;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "perfil")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "pk.codPerfil")
     private List<PerfilFuncionalidad> perfilFuncionalidadList;
 
     public Perfil() {
@@ -109,14 +107,6 @@ public class Perfil implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public List<UsuarioPerfil> getUsuarioPerfilList() {
-        return usuarioPerfilList;
-    }
-
-    public void setUsuarioPerfilList(List<UsuarioPerfil> usuarioPerfilList) {
-        this.usuarioPerfilList = usuarioPerfilList;
     }
 
     public List<PerfilFuncionalidad> getPerfilFuncionalidadList() {

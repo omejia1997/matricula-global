@@ -17,7 +17,6 @@ package ec.edu.espe.arquitectura.matriculaglobal.seguridad.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -30,8 +29,8 @@ public class Funcionalidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cod_funcionalidad", nullable = false)
     private Integer codFuncionalidad;
-    @Column(name = "cod_modulo", nullable = false)
-    private Integer codModulo;
+    @Column(name = "cod_modulo", nullable = false, length = 16)
+    private String codModulo;
     @Column(name = "url_principal", nullable = false, length = 200)
     private String urlPrincipal;
     @Column(name = "nombre", nullable = false, length = 200)
@@ -48,12 +47,8 @@ public class Funcionalidad implements Serializable {
     @Column(name = "aud_ip", nullable = false, length = 30)
     private String audIp;
     @Column(name = "version", nullable = false)
+    @Version
     private Integer version;
-    @JoinColumn(name = "cod_modulo", referencedColumnName = "cod_modulo", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Modulo modulo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "funcionalidad")
-    private List<PerfilFuncionalidad> perfilFuncionalidadList;
 
     public Funcionalidad() {
     }
@@ -70,11 +65,11 @@ public class Funcionalidad implements Serializable {
         this.codFuncionalidad = codFuncionalidad;
     }
     
-    public Integer getCodModulo() {
+    public String getCodModulo() {
         return codModulo;
     }
 
-    public void setCodModulo(Integer codModulo) {
+    public void setCodModulo(String codModulo) {
         this.codModulo = codModulo;
     }
 
@@ -140,22 +135,6 @@ public class Funcionalidad implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Modulo getModulo() {
-        return modulo;
-    }
-
-    public void setModulo(Modulo modulo) {
-        this.modulo = modulo;
-    }
-
-    public List<PerfilFuncionalidad> getPerfilFuncionalidadList() {
-        return perfilFuncionalidadList;
-    }
-
-    public void setPerfilFuncionalidadList(List<PerfilFuncionalidad> perfilFuncionalidadList) {
-        this.perfilFuncionalidadList = perfilFuncionalidadList;
     }
 
     @Override

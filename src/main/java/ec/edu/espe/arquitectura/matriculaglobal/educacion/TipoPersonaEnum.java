@@ -4,7 +4,7 @@ public enum TipoPersonaEnum {
 
     ESTUDIANTE("ESTUDIANTE", "EST"),
     DOCENTE("DOCENTE", "DOC"),
-    SERVIDORPUBLICO("Linea", "SER");
+    SERVIDORPUBLICO("SERVIDORPUBLICO", "SER");
 
     private final String texto;
     private final String valor;

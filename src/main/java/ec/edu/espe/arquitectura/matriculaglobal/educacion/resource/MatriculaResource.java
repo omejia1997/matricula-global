@@ -59,9 +59,9 @@ public class MatriculaResource {
     }
 
     @PostMapping
-    public ResponseEntity<String> crear(@RequestBody Matricula matricula) {
+    public ResponseEntity<String> crear(@RequestBody MatriculaCrear matriculaCrear) {
         try {
-            this.matriculaService.crear(matricula);
+            this.matriculaService.crear(matriculaCrear.getCodCarrera(),matriculaCrear.getMatriculaPK(), matriculaCrear.getNrcsPK());
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();

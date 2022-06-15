@@ -68,8 +68,8 @@ public class UsuarioResource {
     @PostMapping
     public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
         try{
-            usuario = this.usuarioService.crear(usuario);
-            return ResponseEntity.ok(usuario);
+            this.usuarioService.crear(usuario);
+            return ResponseEntity.ok().build();
         }catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

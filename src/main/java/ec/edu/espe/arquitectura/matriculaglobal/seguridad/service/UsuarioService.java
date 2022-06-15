@@ -70,7 +70,7 @@ public class UsuarioService {
         return this.usuarioRepository.findByEstado(estado);
     }
 
-    public Usuario crear(Usuario usuario) {
+    public void crear(Usuario usuario) {
         String clave = RandomStringUtils.randomAlphabetic(8);
         usuario.setClave(DigestUtils.sha256Hex(clave));
         usuario.setFechaCreacion(new Date());
@@ -79,7 +79,6 @@ public class UsuarioService {
         usuario.setNombre(usuario.getNombre().toUpperCase());
         this.usuarioRepository.save(usuario);
         this.enviarClaveUsuario(usuario, clave);
-        return usuario;
     }
 
     public void enviarClaveUsuario (Usuario usuario, String clave){

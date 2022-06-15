@@ -1,5 +1,8 @@
 package ec.edu.espe.arquitectura.matriculaglobal.seguridad.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +48,7 @@ public class PerfilFuncionalidadService {
         }
     }
 
-    public void asignarFuncionalidad(String codigoPerfil, List<Integer> codigoFuncionalidades, PerfilFuncionalidad perfilFuncionalidad) throws PerfilException{
+    public void asignarFuncionalidad(String codigoPerfil, List<Integer> codigoFuncionalidades, PerfilFuncionalidad perfilFuncionalidad) throws PerfilException, UnknownHostException{
         Perfil perfil = this.obtenerPerfilPorCodigo(codigoPerfil);
         if(perfil == null){
             throw new PerfilException("Perfil no encontrado");
@@ -55,8 +58,8 @@ public class PerfilFuncionalidadService {
             if(funcionalidad != null){
                 if(funcionalidad.getEstado().equals(EstadosEnum.ACTIVO.getValor())){
                     PerfilFuncionalidad perFunTemp = new PerfilFuncionalidad();
-                    perFunTemp.setAudFecha(perfilFuncionalidad.getAudFecha());
-                    perFunTemp.setAudIp(perfilFuncionalidad.getAudIp());
+                    perFunTemp.setAudFecha(new Date());
+                    perFunTemp.setAudIp(InetAddress.getLocalHost().getHostAddress());
                     perFunTemp.setAudUsuario(perfilFuncionalidad.getAudUsuario());
                     PerfilFuncionalidadPK pk = new PerfilFuncionalidadPK();
                     pk.setCodFuncionalidad(funcionalidad.getCodFuncionalidad());

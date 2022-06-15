@@ -150,6 +150,7 @@ public class UsuarioService {
                 this.usuarioRepository.save(usuario);
                 registroSesion.setResultado(EstadoRegistroSesionEnum.SATISFACTORIO.getValor());
                 this.registroSesionRepository.save(registroSesion);
+                usuario.setClave("");
                 return usuario;
             }    
         }else{

@@ -132,16 +132,15 @@ public class MatriculaService {
         return personas;
     }
 
-    
-    private void insertarMatriculaNrc(Integer codCarrera,Integer codPeriodo, MatriculaPK pkMatricula, List<NrcPK> pksNrc){
+    private void insertarMatriculaNrc(Integer codCarrera,Integer codPeriodo, MatriculaPK pkMatricula, List<NrcPK> pksNrc, Integer tipoMatricula, BigDecimal numCreditos){
+        BigDecimal CREDITOS_MINIMOS = new BigDecimal(18);
         Matricula matriculaDB = this.obtenerMatriculaPorCodigo(pkMatricula);
         
-        System.out.println("\nData"+matriculaDB);
         if(matriculaDB==null){
             matriculaDB = new Matricula(pkMatricula);
             matriculaDB.setCodCarrera(codCarrera);
             matriculaDB.setCodPeriodo(codPeriodo);
-            matriculaDB.setTipo("1");
+            matriculaDB.setTipo(tipoMatricula.toString());
             matriculaDB.setFecha(new Date());
             matriculaDB.setCosto(new BigDecimal(0));
             this.matriculaRepository.save(matriculaDB);
@@ -155,6 +154,7 @@ public class MatriculaService {
             if(nrcDB.getCupoDisponible()>0){
                 Materia materia = nrcDB.getMateria();
                 BigDecimal numeroCreditos = materia.getCreditos();
+                numCreditos.add(numeroCreditos);
                 MatriculaNrcPK pk = new MatriculaNrcPK(pkNrc.getCodNrc(),pkNrc.getCodPeriodo(), pkNrc.getCodDepartamento(), pkNrc.getCodMateria(), pkMatricula.getCodMatricula(), pkMatricula.getCodPersona());
                 MatriculaNrc matriculaNrc = new MatriculaNrc(pk);
                 matriculaNrc.setEstado(EstadosEnum.ACTIVO.getValor());
@@ -168,6 +168,9 @@ public class MatriculaService {
                 this.nrcRepository.save(nrcDB);
             }
         }
+        if(numCreditos.compareTo(CREDITOS_MINIMOS)==1){
+            matriculaDB.setCosto(new BigDecimal(0));
+        }
         this.matriculaRepository.save(matriculaDB);
     }
 
@@ -175,6 +178,8 @@ public class MatriculaService {
         Boolean check = false;
         Integer MATRICULAS_MAXIMAS = 2;
         Integer codPeriodo=0;
+        Integer tipoMatricula=0;
+        BigDecimal numeroCreditos = new BigDecimal(0);
         Persona persona = this.obtenerPorCodigoPersona(pkMatricula.getCodPersona());
         if(persona.getEstado().equals(EstadosEnum.INACTIVO.getValor()))
             throw new MatriculaNrcException("Actualmente se encuentra Inactivo");
@@ -183,6 +188,13 @@ public class MatriculaService {
         } 
         for(NrcPK pkNrcVal : pksNrc){
             List <MatriculaNrc> matNrcAux = this.matriculaNrcRepository.findByPkCodPersonaAndPkCodMateria(pkMatricula.getCodPersona(), pkNrcVal.getCodMateria());
+            if(matNrcAux!=null){
+                for(MatriculaNrc m:matNrcAux){
+                    numeroCreditos.add(m.getNrc().getMateria().getCreditos());
+                }
+            }
+            if(matNrcAux.size()>tipoMatricula)
+                tipoMatricula = matNrcAux.size();
             codPeriodo = pkNrcVal.getCodPeriodo();
             if(matNrcAux.size() == MATRICULAS_MAXIMAS){
                 check = true;
@@ -194,6 +206,6 @@ public class MatriculaService {
             }
         }
 
-        this.insertarMatriculaNrc(codCarrera,codPeriodo,pkMatricula, pksNrc);
+        this.insertarMatriculaNrc(codCarrera,codPeriodo,pkMatricula, pksNrc,tipoMatricula,numeroCreditos);
     }
 }

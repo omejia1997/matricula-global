@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ec.edu.espe.arquitectura.matriculaglobal.educacion.NrcException;
+import ec.edu.espe.arquitectura.matriculaglobal.educacion.CalificacionException;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.TipoPersonaEnum;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.dao.MatriculaNrcRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.dao.NrcRepository;
@@ -59,33 +59,33 @@ public class NrcService {
         return this.nrcRepository.findByPkCodPeriodoAndPkCodMateria(codPeriodo, codMateria);
     }
 
-    public void crear(Nrc nrc) throws NrcException {
+    public void crear(Nrc nrc) throws CalificacionException {
         Nrc nrcDB = this.obtenerPorCodigo(nrc.getPk());
         if(nrcDB != null) {
-            throw new NrcException("Nrc existente");
+            throw new CalificacionException("Nrc existente");
         }
         Persona persona = this.obtenerPorCodigoPersona(nrc.getCodDocente());
         if (persona == null) {
-            throw new NrcException("Docente no existe");
+            throw new CalificacionException("Docente no existe");
         }
         if(persona.getCodTipoPersona().equals(TipoPersonaEnum.ESTUDIANTE.getValor()) || persona.getCodTipoPersona().equals(TipoPersonaEnum.SERVIDORPUBLICO.getValor())) {
-            throw new NrcException("Se debe asignar unicamente un docente");
+            throw new CalificacionException("Se debe asignar unicamente un docente");
         }
         nrc.setNombre(persona.getNombreComun());
         this.nrcRepository.save(nrc);
     }
 
-    public Nrc modificar(Nrc nrc) throws NrcException {
+    public Nrc modificar(Nrc nrc) throws CalificacionException {
         Nrc nrcDB = this.obtenerPorCodigo(nrc.getPk());
         if(nrcDB == null) {
-            throw new NrcException("Nrc no existente");
+            throw new CalificacionException("Nrc no existente");
         }
         Persona persona = this.obtenerPorCodigoPersona(nrc.getCodDocente());
         if (persona == null) {
-            throw new NrcException("Docente no existe");
+            throw new CalificacionException("Docente no existe");
         }
         if(persona.getCodTipoPersona().equals(TipoPersonaEnum.ESTUDIANTE.getValor()) || persona.getCodTipoPersona().equals(TipoPersonaEnum.SERVIDORPUBLICO.getValor())) {
-            throw new NrcException("Se debe asignar unicamente un docente");
+            throw new CalificacionException("Se debe asignar unicamente un docente");
         }
         nrcDB.setCupoDisponible(nrc.getCupoDisponible());
         nrcDB.setCupoRegistrado(0);
@@ -94,14 +94,14 @@ public class NrcService {
         return nrcDB;
     }
         
-    public List<Persona> buscarAlumnosDeNrc(NrcPK nrcPk) throws NrcException {
+    public List<Persona> buscarAlumnosDeNrc(NrcPK nrcPk) throws CalificacionException {
         Nrc nrc = this.obtenerPorCodigo(nrcPk);
         if (nrc == null) {
-            throw new NrcException("Nrc no encontrado");
+            throw new CalificacionException("Nrc no encontrado");
         }
         List<MatriculaNrc> matriculasNrcs = this.matriculaNrcRepository.findByPkCodNrcAndPkCodPeriodoAndPkCodDepartamentoAndPkCodMateriaOrderByPkCodPersona(nrcPk.getCodNrc(), nrcPk.getCodPeriodo(), nrcPk.getCodDepartamento(), nrcPk.getCodMateria());
         if (matriculasNrcs.isEmpty()) {
-            throw new NrcException("No hay alumnos en este Nrc");
+            throw new CalificacionException("No hay alumnos en este Nrc");
         }
         List<Persona> personas = new ArrayList<>();
         for (MatriculaNrc matriculaNrc : matriculasNrcs) {

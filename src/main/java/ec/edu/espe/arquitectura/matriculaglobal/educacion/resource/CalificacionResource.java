@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.model.Calificacion;
+import ec.edu.espe.arquitectura.matriculaglobal.educacion.model.CalificacionPK;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.service.CalificacionService;
 
 @RestController
@@ -45,12 +46,23 @@ public class CalificacionResource {
         }
     }
 
-    @PutMapping
+    @PutMapping("/modificar")
     public ResponseEntity<Calificacion> modificar(@RequestBody Calificacion calificacion) {
         try {
             this.calificacionService.modificar(calificacion);
             calificacion = this.calificacionService.obtenerPorCodigo(calificacion.getPk());
             return ResponseEntity.ok(calificacion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/promediar")
+    public ResponseEntity<Calificacion> promediarCalificacion(@RequestBody CalificacionPK calificacionPk) {
+        try {
+            this.calificacionService.promediarCalificacion(calificacionPk);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

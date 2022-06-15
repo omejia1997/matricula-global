@@ -1,5 +1,8 @@
 package ec.edu.espe.arquitectura.matriculaglobal.seguridad.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,8 +52,10 @@ public class FuncionalidadService {
             throw new PerfilEstadoException("El estado de la funcionalidad es incorrecto");
     }
 
-    public Funcionalidad crear(Funcionalidad funcionalidad) {
+    public Funcionalidad crear(Funcionalidad funcionalidad) throws UnknownHostException {
         funcionalidad.setEstado(EstadosEnum.ACTIVO.getValor());
+        funcionalidad.setAudFecha(new Date());
+        funcionalidad.setAudIp(InetAddress.getLocalHost().getHostAddress());
         this.funcionalidadRepository.save(funcionalidad);
         return funcionalidad;
     }

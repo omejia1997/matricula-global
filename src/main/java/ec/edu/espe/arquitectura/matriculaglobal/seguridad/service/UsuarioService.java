@@ -70,13 +70,15 @@ public class UsuarioService {
         return this.usuarioRepository.findByEstado(estado);
     }
 
-    public void crear(Usuario usuario) {
+    public void crear(Usuario usuario) throws UnknownHostException {
         String clave = RandomStringUtils.randomAlphabetic(8);
         usuario.setClave(DigestUtils.sha256Hex(clave));
         usuario.setFechaCreacion(new Date());
         usuario.setEstado(EstadoPersonaEnum.CREADO.getValor());
         usuario.setNroIntentosFallidos(0);
         usuario.setNombre(usuario.getNombre().toUpperCase());
+        usuario.setAudFecha(new Date());
+        usuario.setAudIp(InetAddress.getLocalHost().getHostAddress());
         this.usuarioRepository.save(usuario);
         this.enviarClaveUsuario(usuario, clave);
     }

@@ -6,6 +6,9 @@ import ec.edu.espe.arquitectura.matriculaglobal.seguridad.dao.PerfilRepository;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.Perfil;
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.model.PerfilFuncionalidad;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +36,10 @@ public class PerfilService {
         return this.perfilRepository.findByEstado(EstadosEnum.ACTIVO.getValor());  
     }
 
-    public Perfil crear(Perfil perfil) {
+    public Perfil crear(Perfil perfil) throws UnknownHostException {
         perfil.setEstado(EstadosEnum.ACTIVO.getValor());
+        perfil.setAudFecha(new Date());
+        perfil.setAudIp(InetAddress.getLocalHost().getHostAddress());
         this.perfilRepository.save(perfil);
         return perfil;
     }

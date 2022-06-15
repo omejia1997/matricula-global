@@ -1,5 +1,8 @@
 package ec.edu.espe.arquitectura.matriculaglobal.seguridad.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +48,7 @@ public class UsuarioPerfilService {
         }
     }
     
-    public void asignarPerfil(String codigoUsuario, List<String> codigoPerfiles, UsuarioPerfil usuarioPerfil) throws PerfilException{
+    public void asignarPerfil(String codigoUsuario, List<String> codigoPerfiles, UsuarioPerfil usuarioPerfil) throws PerfilException, UnknownHostException{
         Usuario usuario = this.buscarUsuarioPorCodigo(codigoUsuario);
         if(usuario == null){
             throw new PerfilException("Usuario no encontrado");
@@ -55,8 +58,8 @@ public class UsuarioPerfilService {
             if(perfil != null){
                 if(perfil.getEstado().equals(EstadosEnum.ACTIVO.getValor())){
                     UsuarioPerfil userPerTemp = new UsuarioPerfil();
-                    userPerTemp.setAudFecha(usuarioPerfil.getAudFecha());
-                    userPerTemp.setAudIp(usuarioPerfil.getAudIp());
+                    userPerTemp.setAudFecha(new Date());
+                    userPerTemp.setAudIp(InetAddress.getLocalHost().getHostAddress());
                     userPerTemp.setAudUsuario(usuarioPerfil.getAudUsuario());
                     UsuarioPerfilPK pk = new UsuarioPerfilPK();
                     pk.setCodPerfil(perfil.getCodPerfil());

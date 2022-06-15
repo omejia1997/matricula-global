@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import ec.edu.espe.arquitectura.matriculaglobal.seguridad.CambioClaveException;
@@ -73,7 +75,21 @@ public class UsuarioService {
         usuario.setNroIntentosFallidos(0);
         usuario.setNombre(usuario.getNombre().toUpperCase());
         this.usuarioRepository.save(usuario);
+        this.enviarClaveUsuario(usuario, clave);
         return usuario;
+    }
+
+    public void enviarClaveUsuario (Usuario usuario, String clave){
+        JavaMailSender mailSender;
+        SimpleMailMessage email = new SimpleMailMessage();
+        String asunto = "Registro exitoso";
+        String contenido = usuario.getNombre() + ", tu clave generada es: " + clave;
+
+        email.setTo(usuario.getMail());
+        email.setSubject(asunto);
+        email.setText(contenido);
+
+        //mailSender.send(email);
     }
 
     public Usuario modificar(Usuario usuario) {

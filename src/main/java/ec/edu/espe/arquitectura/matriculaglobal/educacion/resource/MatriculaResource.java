@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ec.edu.espe.arquitectura.matriculaglobal.educacion.MatriculaCrear;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.model.Matricula;
 import ec.edu.espe.arquitectura.matriculaglobal.educacion.service.MatriculaService;
 import ec.edu.espe.arquitectura.matriculaglobal.persona.model.Persona;

@@ -28,10 +28,13 @@ public class UsuarioService {
 
     private UsuarioRepository usuarioRepository;
     private RegistroSesionRepository registroSesionRepository;
+    private JavaMailSender mailSender;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, RegistroSesionRepository registroSesionRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RegistroSesionRepository registroSesionRepository,
+            JavaMailSender mailSender) {
         this.usuarioRepository = usuarioRepository;
         this.registroSesionRepository = registroSesionRepository;
+        this.mailSender = mailSender;
     }
 
     public Usuario buscarPorCodigo(String codigo) {
@@ -80,7 +83,6 @@ public class UsuarioService {
     }
 
     public void enviarClaveUsuario (Usuario usuario, String clave){
-        JavaMailSender mailSender;
         SimpleMailMessage email = new SimpleMailMessage();
         String asunto = "Registro exitoso";
         String contenido = usuario.getNombre() + ", tu clave generada es: " + clave;
@@ -89,7 +91,7 @@ public class UsuarioService {
         email.setSubject(asunto);
         email.setText(contenido);
 
-        //mailSender.send(email);
+        mailSender.send(email);
     }
 
     public Usuario modificar(Usuario usuario) {
